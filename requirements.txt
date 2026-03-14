@@ -1,0 +1,14 @@
+# Data
+pandas
+numpy
+yfinance
+
+# Backtest
+backtesting
+
+# Visualization
+matplotlib
+seaborn
+
+# Utils
+python-dotenv

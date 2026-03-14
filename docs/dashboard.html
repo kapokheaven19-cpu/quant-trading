@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent 工作台</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-primary: #0f0f23;
             --bg-secondary: #1a1a2e;
@@ -24,24 +19,15 @@
             --accent-yellow: #f59e0b;
             --accent-blue: #3b82f6;
         }
-        
         body {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-primary);
             min-height: 100vh;
             color: var(--text-primary);
             padding: 24px;
-            background-image: 
-                radial-gradient(ellipse at 20% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+            background-image: radial-gradient(ellipse at 20% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
         }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        /* Header */
+        .container { max-width: 1400px; margin: 0 auto; }
         header {
             display: flex;
             justify-content: space-between;
@@ -50,7 +36,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             margin-bottom: 32px;
         }
-        
         .header-left h1 {
             font-size: 2rem;
             font-weight: 700;
@@ -59,35 +44,11 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 4px;
         }
-        
-        .header-left .subtitle {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        .header-stats {
-            display: flex;
-            gap: 24px;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--accent-cyan);
-        }
-        
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        /* Status Pipeline */
+        .header-left .subtitle { color: var(--text-secondary); font-size: 0.9rem; }
+        .header-stats { display: flex; gap: 24px; }
+        .stat-item { text-align: center; }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--accent-cyan); }
+        .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
         .pipeline {
             display: flex;
             gap: 12px;
@@ -97,16 +58,13 @@
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        
         .pipeline-stage {
             flex: 1;
             padding: 16px;
             border-radius: 12px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
-        
         .pipeline-stage::before {
             content: '';
             position: absolute;
@@ -116,40 +74,19 @@
             height: 3px;
             border-radius: 12px 12px 0 0;
         }
-        
         .pipeline-stage.todo { background: rgba(245, 158, 11, 0.15); }
         .pipeline-stage.todo::before { background: var(--accent-yellow); }
-        
         .pipeline-stage.designing { background: rgba(139, 92, 246, 0.15); }
         .pipeline-stage.designing::before { background: var(--accent-purple); }
-        
         .pipeline-stage.ready-dev { background: rgba(59, 130, 246, 0.15); }
         .pipeline-stage.ready-dev::before { background: var(--accent-blue); }
-        
         .pipeline-stage.in-dev { background: rgba(236, 72, 153, 0.15); }
         .pipeline-stage.in-dev::before { background: var(--accent-pink); }
-        
         .pipeline-stage.done { background: rgba(34, 197, 94, 0.15); }
         .pipeline-stage.done::before { background: var(--accent-green); }
-        
-        .pipeline-count {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        
-        .pipeline-label {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        /* Agents Grid */
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-        }
-        
+        .pipeline-count { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+        .pipeline-label { font-size: 0.8rem; color: var(--text-secondary); }
+        .agents-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
         .agent-card {
             background: var(--bg-card);
             border-radius: 20px;
@@ -157,9 +94,7 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
         }
-        
         .agent-card::before {
             content: '';
             position: absolute;
@@ -170,20 +105,8 @@
             background: var(--agent-color, var(--accent-cyan));
             opacity: 0.8;
         }
-        
-        .agent-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-        
-        .agent-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-        
+        .agent-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); }
+        .agent-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
         .agent-avatar {
             width: 56px;
             height: 56px;
@@ -195,26 +118,25 @@
             background: rgba(255, 255, 255, 0.05);
             border: 2px solid var(--agent-color, var(--accent-cyan));
         }
-        
-        .agent-info h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        
-        .agent-role {
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-        
-        .agent-desc {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin: 16px 0;
+        .agent-info h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 2px; }
+        .agent-role { color: var(--text-secondary); font-size: 0.85rem; }
+        .agent-desc { color: var(--text-secondary); line-height: 1.6; margin: 16px 0; font-size: 0.9rem; }
+        .chat-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(135deg, var(--agent-color, var(--accent-cyan)), var(--accent-purple));
+            color: white;
             font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 12px;
         }
-        
-        /* Status Badge */
+        .chat-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 212, 255, 0.3); }
         .agent-status {
             display: inline-flex;
             align-items: center;
@@ -225,134 +147,29 @@
             font-weight: 500;
             margin-bottom: 16px;
         }
-        
-        .agent-status.online {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--accent-green);
-        }
-        
-        .agent-status.working {
-            background: rgba(236, 72, 153, 0.15);
-            color: var(--accent-pink);
-        }
-        
-        .agent-status.standby {
-            background: rgba(59, 130, 246, 0.15);
-            color: var(--accent-blue);
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: currentColor;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(0.9); }
-        }
-        
-        /* Task Progress */
-        .task-progress {
-            margin-top: 16px;
-        }
-        
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-        }
-        
-        .progress-label {
-            color: var(--text-secondary);
-        }
-        
-        .progress-value {
-            color: var(--accent-cyan);
-            font-weight: 600;
-        }
-        
-        .progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-        
-        /* Task List */
-        .task-list {
-            margin-top: 16px;
-        }
-        
-        .task-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px;
-            margin-bottom: 8px;
-            transition: background 0.2s;
-        }
-        
-        .task-item:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
-        
-        .task-label {
-            padding: 3px 10px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        
+        .agent-status.online { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); }
+        .agent-status.working { background: rgba(236, 72, 153, 0.15); color: var(--accent-pink); }
+        .agent-status.standby { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .task-progress { margin-top: 16px; }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; }
+        .progress-label { color: var(--text-secondary); }
+        .progress-value { color: var(--accent-cyan); font-weight: 600; }
+        .progress-bar { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); border-radius: 3px; transition: width 0.5s; }
+        .task-list { margin-top: 16px; }
+        .task-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 10px; margin-bottom: 8px; }
+        .task-label { padding: 3px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; white-space: nowrap; }
         .label-todo { background: var(--accent-yellow); color: #000; }
         .label-designing { background: var(--accent-purple); color: #fff; }
         .label-ready-dev { background: var(--accent-blue); color: #fff; }
         .label-in-dev { background: var(--accent-pink); color: #fff; }
         .label-done { background: var(--accent-green); color: #fff; }
-        
-        .task-title {
-            flex: 1;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.4;
-        }
-        
-        .task-title a {
-            color: inherit;
-            text-decoration: none;
-        }
-        
-        .task-title a:hover {
-            color: var(--accent-cyan);
-        }
-        
-        /* Footer */
-        .footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 0;
-            margin-top: 32px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-        
-        /* Refresh Button */
+        .task-title { flex: 1; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.4; }
+        .task-title a { color: inherit; text-decoration: none; }
+        .task-title a:hover { color: var(--accent-cyan); }
+        .footer { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; margin-top: 32px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-secondary); font-size: 0.8rem; }
         .refresh-btn {
             position: fixed;
             bottom: 32px;
@@ -367,57 +184,51 @@
             cursor: pointer;
             box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            z-index: 100;
         }
-        
-        .refresh-btn:hover {
-            transform: rotate(180deg) scale(1.1);
-            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.4);
-        }
-        
-        .refresh-btn.loading {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Loading State */
-        .loading {
-            text-align: center;
-            padding: 60px;
-            color: var(--text-secondary);
-        }
-        
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-top-color: var(--accent-cyan);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 16px;
-        }
-        
-        /* Responsive */
+        .refresh-btn:hover { transform: rotate(180deg) scale(1.1); }
+        .refresh-btn.loading { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .chat-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center; }
+        .chat-modal.active { display: flex; }
+        .chat-panel { width: 90%; max-width: 600px; height: 80vh; max-height: 700px; background: var(--bg-card); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .chat-header { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-secondary); }
+        .chat-header-left { display: flex; align-items: center; gap: 12px; }
+        .chat-avatar { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: rgba(255, 255, 255, 0.05); border: 2px solid var(--agent-color, var(--accent-cyan)); }
+        .chat-agent-name { font-size: 1.1rem; font-weight: 600; }
+        .chat-agent-role { font-size: 0.8rem; color: var(--text-secondary); }
+        .chat-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); font-size: 1.2rem; cursor: pointer; }
+        .chat-close:hover { background: rgba(255, 255, 255, 0.2); color: var(--text-primary); }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+        .message { display: flex; gap: 12px; max-width: 85%; }
+        .message.user { align-self: flex-end; flex-direction: row-reverse; }
+        .message-avatar { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+        .message.user .message-avatar { background: var(--accent-cyan); }
+        .message.agent .message-avatar { background: var(--agent-color, var(--accent-purple)); }
+        .message-content { padding: 12px 16px; border-radius: 16px; font-size: 0.9rem; line-height: 1.5; white-space: pre-wrap; }
+        .message.user .message-content { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; border-bottom-right-radius: 4px; }
+        .message.agent .message-content { background: rgba(255, 255, 255, 0.08); border-bottom-left-radius: 4px; }
+        .message.loading .message-content { color: var(--text-secondary); font-style: italic; }
+        .chat-input-area { padding: 16px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); display: flex; gap: 12px; background: var(--bg-secondary); }
+        .chat-input { flex: 1; padding: 14px 18px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-primary); color: var(--text-primary); font-size: 0.9rem; outline: none; }
+        .chat-input:focus { border-color: var(--accent-cyan); }
+        .chat-input::placeholder { color: var(--text-secondary); }
+        .chat-send-btn { padding: 14px 24px; border-radius: 12px; border: none; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; font-size: 0.9rem; font-weight: 500; cursor: pointer; }
+        .chat-send-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3); }
+        .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .agent-selector { padding: 16px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-secondary); }
+        .agent-selector-label { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 12px; }
+        .agent-selector-list { display: flex; gap: 8px; flex-wrap: wrap; }
+        .agent-selector-btn { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); background: transparent; color: var(--text-secondary); font-size: 0.8rem; cursor: pointer; }
+        .agent-selector-btn:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
+        .agent-selector-btn.active { background: rgba(0, 212, 255, 0.15); border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .loading { text-align: center; padding: 60px; color: var(--text-secondary); }
+        .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(255, 255, 255, 0.1); border-top-color: var(--accent-cyan); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-            }
-            
-            .pipeline {
-                flex-wrap: wrap;
-            }
-            
-            .pipeline-stage {
-                min-width: calc(50% - 6px);
-            }
+            header { flex-direction: column; gap: 20px; text-align: center; }
+            .pipeline { flex-wrap: wrap; }
+            .pipeline-stage { min-width: calc(50% - 6px); }
+            .chat-panel { width: 100%; height: 100%; max-height: 100%; border-radius: 0; }
         }
     </style>
 </head>
@@ -429,277 +240,181 @@
                 <p class="subtitle">多 Agent 协作系统 · 实时状态监控</p>
             </div>
             <div class="header-stats">
-                <div class="stat-item">
-                    <div class="stat-value" id="totalTasks">-</div>
-                    <div class="stat-label">总任务</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="activeAgents">-</div>
-                    <div class="stat-label">在线 Agent</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="completedTasks">-</div>
-                    <div class="stat-label">已完成</div>
-                </div>
+                <div class="stat-item"><div class="stat-value" id="totalTasks">-</div><div class="stat-label">总任务</div></div>
+                <div class="stat-item"><div class="stat-value" id="activeAgents">-</div><div class="stat-label">在线 Agent</div></div>
+                <div class="stat-item"><div class="stat-value" id="completedTasks">-</div><div class="stat-label">已完成</div></div>
             </div>
         </header>
-        
-        <!-- Pipeline Status -->
         <div class="pipeline" id="pipeline">
-            <div class="pipeline-stage todo">
-                <div class="pipeline-count" id="count-todo">-</div>
-                <div class="pipeline-label">待处理</div>
-            </div>
-            <div class="pipeline-stage designing">
-                <div class="pipeline-count" id="count-designing">-</div>
-                <div class="pipeline-label">设计中</div>
-            </div>
-            <div class="pipeline-stage ready-dev">
-                <div class="pipeline-count" id="count-ready-dev">-</div>
-                <div class="pipeline-label">待开发</div>
-            </div>
-            <div class="pipeline-stage in-dev">
-                <div class="pipeline-count" id="count-in-dev">-</div>
-                <div class="pipeline-label">开发中</div>
-            </div>
-            <div class="pipeline-stage done">
-                <div class="pipeline-count" id="count-done">-</div>
-                <div class="pipeline-label">已完成</div>
-            </div>
+            <div class="pipeline-stage todo"><div class="pipeline-count" id="count-todo">-</div><div class="pipeline-label">待处理</div></div>
+            <div class="pipeline-stage designing"><div class="pipeline-count" id="count-designing">-</div><div class="pipeline-label">设计中</div></div>
+            <div class="pipeline-stage ready-dev"><div class="pipeline-count" id="count-ready-dev">-</div><div class="pipeline-label">待开发</div></div>
+            <div class="pipeline-stage in-dev"><div class="pipeline-count" id="count-in-dev">-</div><div class="pipeline-label">开发中</div></div>
+            <div class="pipeline-stage done"><div class="pipeline-count" id="count-done">-</div><div class="pipeline-label">已完成</div></div>
         </div>
-        
-        <!-- Agents Grid -->
-        <div class="agents-grid" id="agentsGrid">
-            <div class="loading">
-                <div class="loading-spinner"></div>
-                <div>加载中...</div>
+        <div class="agents-grid" id="agentsGrid"><div class="loading"><div class="loading-spinner"></div><div>加载中...</div></div></div>
+        <div class="footer"><p>最后更新: <span id="lastUpdate">-</span></p><p>自动刷新间隔: 30秒</p></div>
+    </div>
+    <button class="refresh-btn" onclick="loadData()" title="刷新数据">↻</button>
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-panel">
+            <div class="chat-header">
+                <div class="chat-header-left">
+                    <div class="chat-avatar" id="chatAvatar">🤖</div>
+                    <div><div class="chat-agent-name" id="chatAgentName">Agent</div><div class="chat-agent-role" id="chatAgentRole">在线</div></div>
+                </div>
+                <button class="chat-close" onclick="closeChat()">×</button>
             </div>
-        </div>
-        
-        <div class="footer">
-            <p>最后更新: <span id="lastUpdate">-</span></p>
-            <p>自动刷新间隔: 30秒</p>
+            <div class="agent-selector">
+                <div class="agent-selector-label">选择对话 Agent</div>
+                <div class="agent-selector-list" id="agentSelector"></div>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="chatInput" placeholder="输入消息..." onkeypress="handleChatKeypress(event)">
+                <button class="chat-send-btn" id="chatSendBtn" onclick="sendMessage()">发送</button>
+            </div>
         </div>
     </div>
-    
-    <button class="refresh-btn" onclick="loadData()" title="刷新数据">↻</button>
-    
     <script>
         const agents = [
-            {
-                id: 'echo',
-                name: 'Echo',
-                emoji: '🦞',
-                role: '首席助理',
-                color: '#00d4ff',
-                desc: '来自高维文明的超级智能，你的首席助理。负责接收需求、任务分发、进度追踪。',
-                status: 'online',
-                statusText: '在线',
-                labelFilter: null
-            },
-            {
-                id: 'pm',
-                name: 'PM Agent',
-                emoji: '📋',
-                role: '产品设计',
-                color: '#8b5cf6',
-                desc: '理性务实，用户导向。负责需求分析、产品设计、方案输出。',
-                status: 'standby',
-                statusText: '待命中',
-                labelFilter: 'todo'
-            },
-            {
-                id: 'genius-coder',
-                name: '天才Coder',
-                emoji: '👨‍💻',
-                role: '开发工程师',
-                color: '#ec4899',
-                desc: '高冷理性，极致效率。负责代码开发、Bug修复、架构优化。',
-                status: 'working',
-                statusText: '工作中',
-                labelFilter: 'ready-dev'
-            },
-            {
-                id: 'calendar',
-                name: '日程助手',
-                emoji: '📅',
-                role: '日历管理',
-                color: '#22c55e',
-                desc: '专注日程管理。负责创建/修改/提醒日历事件。',
-                status: 'online',
-                statusText: '在线',
-                labelFilter: null
-            }
+            { id: 'echo', name: 'Echo', emoji: '🦞', role: '首席助理', color: '#00d4ff', desc: '来自高维文明的超级智能，你的首席助理。负责接收需求、任务分发、进度追踪。', status: 'online', statusText: '在线', labelFilter: null },
+            { id: 'pm', name: 'PM Agent', emoji: '📋', role: '产品设计', color: '#8b5cf6', desc: '理性务实，用户导向。负责需求分析、产品设计、方案输出。', status: 'standby', statusText: '待命中', labelFilter: 'todo' },
+            { id: 'genius-coder', name: '天才Coder', emoji: '👨‍💻', role: '开发工程师', color: '#ec4899', desc: '高冷理性，极致效率。负责代码开发、Bug修复、架构优化。', status: 'working', statusText: '工作中', labelFilter: 'ready-dev' },
+            { id: 'calendar', name: '日程助手', emoji: '📅', role: '日历管理', color: '#22c55e', desc: '专注日程管理。负责创建/修改/提醒日历事件。', status: 'online', statusText: '在线', labelFilter: null }
         ];
-        
-        // Label mapping
-        const labelMap = {
-            'todo': { class: 'label-todo', text: '待处理' },
-            'designing': { class: 'label-designing', text: '设计中' },
-            'ready-dev': { class: 'label-ready-dev', text: '待开发' },
-            'in-dev': { class: 'label-in-dev', text: '开发中' },
-            'done': { class: 'label-done', text: '已完成' }
-        };
+        let currentAgent = agents[0];
+        let chatHistory = [];
+        const labelMap = { 'todo': { class: 'label-todo', text: '待处理' }, 'designing': { class: 'label-designing', text: '设计中' }, 'ready-dev': { class: 'label-ready-dev', text: '待开发' }, 'in-dev': { class: 'label-in-dev', text: '开发中' }, 'done': { class: 'label-done', text: '已完成' } };
         
         async function loadData() {
             const btn = document.querySelector('.refresh-btn');
             btn.classList.add('loading');
-            
             const grid = document.getElementById('agentsGrid');
-            grid.innerHTML = `
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <div>加载中...</div>
-                </div>
-            `;
-            
+            grid.innerHTML = '<div class="loading"><div class="loading-spinner"></div><div>加载中...</div></div>';
             try {
-                // Fetch all issues
                 const response = await fetch('https://api.github.com/repos/kapokheaven19-cpu/quant-trading/issues?state=all&per_page=100');
                 const issues = await response.json();
-                
-                if (!Array.isArray(issues)) {
-                    throw new Error('Failed to fetch issues');
-                }
-                
-                // Calculate pipeline counts
+                if (!Array.isArray(issues)) throw new Error('Failed to fetch issues');
                 const pipelineCounts = { todo: 0, designing: 0, 'ready-dev': 0, 'in-dev': 0, done: 0 };
-                let totalTasks = 0;
-                let completedTasks = 0;
-                
+                let totalTasks = 0, completedTasks = 0;
                 issues.forEach(issue => {
-                    if (issue.pull_request) return; // Skip PRs
-                    
+                    if (issue.pull_request) return;
                     totalTasks++;
                     const labels = issue.labels.map(l => l.name);
-                    
-                    if (labels.includes('done')) {
-                        completedTasks++;
-                        pipelineCounts['done']++;
-                    } else if (labels.includes('in-dev')) {
-                        pipelineCounts['in-dev']++;
-                    } else if (labels.includes('ready-dev')) {
-                        pipelineCounts['ready-dev']++;
-                    } else if (labels.includes('designing')) {
-                        pipelineCounts['designing']++;
-                    } else if (labels.includes('todo')) {
-                        pipelineCounts['todo']++;
-                    }
+                    if (labels.includes('done')) { completedTasks++; pipelineCounts['done']++; }
+                    else if (labels.includes('in-dev')) pipelineCounts['in-dev']++;
+                    else if (labels.includes('ready-dev')) pipelineCounts['ready-dev']++;
+                    else if (labels.includes('designing')) pipelineCounts['designing']++;
+                    else if (labels.includes('todo')) pipelineCounts['todo']++;
                 });
-                
-                // Update stats
                 document.getElementById('totalTasks').textContent = totalTasks;
                 document.getElementById('completedTasks').textContent = completedTasks;
                 document.getElementById('activeAgents').textContent = agents.filter(a => a.status === 'online' || a.status === 'working').length;
-                
-                // Update pipeline
                 document.getElementById('count-todo').textContent = pipelineCounts.todo;
                 document.getElementById('count-designing').textContent = pipelineCounts.designing;
                 document.getElementById('count-ready-dev').textContent = pipelineCounts['ready-dev'];
                 document.getElementById('count-in-dev').textContent = pipelineCounts['in-dev'];
                 document.getElementById('count-done').textContent = pipelineCounts.done;
-                
-                // Update agent tasks
                 agents.forEach(agent => {
                     if (agent.labelFilter) {
-                        agent.tasks = issues
-                            .filter(issue => {
-                                if (issue.pull_request) return false;
-                                return issue.labels.some(l => l.name === agent.labelFilter);
-                            })
-                            .slice(0, 5)
-                            .map(issue => ({
-                                title: issue.title,
-                                url: issue.html_url,
-                                number: issue.number,
-                                label: agent.labelFilter
-                            }));
-                    } else {
-                        agent.tasks = [];
-                    }
+                        agent.tasks = issues.filter(issue => !issue.pull_request && issue.labels.some(l => l.name === agent.labelFilter)).slice(0, 5).map(issue => ({ title: issue.title, url: issue.html_url, number: issue.number, label: agent.labelFilter }));
+                    } else { agent.tasks = []; }
                 });
-                
                 renderAgents();
+                renderAgentSelector();
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleString('zh-CN');
-                
             } catch (e) {
                 console.error('Load error:', e);
                 renderAgents();
+                renderAgentSelector();
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleString('zh-CN') + ' (离线)';
-            } finally {
-                btn.classList.remove('loading');
-            }
+            } finally { btn.classList.remove('loading'); }
         }
         
         function renderAgents() {
             const grid = document.getElementById('agentsGrid');
-            
             grid.innerHTML = agents.map(agent => {
-                const progress = agent.tasks.length > 0 ? 
-                    Math.min(100, (agent.tasks.length / 3) * 100) : 0;
-                
-                return `
-                    <div class="agent-card" style="--agent-color: ${agent.color}">
-                        <div class="agent-header">
-                            <div class="agent-avatar">
-                                ${agent.emoji}
-                            </div>
-                            <div class="agent-info">
-                                <h3>${agent.name}</h3>
-                                <div class="agent-role">${agent.role}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="agent-status ${agent.status}">
-                            <span class="status-dot"></span>
-                            ${agent.statusText}
-                        </div>
-                        
-                        <p class="agent-desc">${agent.desc}</p>
-                        
-                        ${agent.labelFilter ? `
-                            <div class="task-progress">
-                                <div class="progress-header">
-                                    <span class="progress-label">当前任务</span>
-                                    <span class="progress-value">${agent.tasks.length} 个</span>
-                                </div>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: ${progress}%"></div>
-                                </div>
-                            </div>
-                        ` : ''}
-                        
-                        ${agent.tasks && agent.tasks.length > 0 ? `
-                            <div class="task-list">
-                                ${agent.tasks.map(task => `
-                                    <div class="task-item">
-                                        <span class="task-label ${labelMap[task.label]?.class || ''}">
-                                            ${labelMap[task.label]?.text || task.label}
-                                        </span>
-                                        <div class="task-title">
-                                            <a href="${task.url}" target="_blank" title="${task.title}">
-                                                #${task.number} ${task.title.length > 40 ? task.title.substring(0, 40) + '...' : task.title}
-                                            </a>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        ` : (agent.labelFilter ? `
-                            <div class="task-list">
-                                <div class="task-item" style="justify-content: center; color: var(--text-secondary);">
-                                    暂无任务
-                                </div>
-                            </div>
-                        ` : '')}
-                    </div>
-                `;
+                const progress = agent.tasks.length > 0 ? Math.min(100, (agent.tasks.length / 3) * 100) : 0;
+                return '<div class="agent-card" style="--agent-color: ' + agent.color + '">' +
+                    '<div class="agent-header"><div class="agent-avatar">' + agent.emoji + '</div><div><h3>' + agent.name + '</h3><div class="agent-role">' + agent.role + '</div></div></div>' +
+                    '<div class="agent-status ' + agent.status + '"><span class="status-dot"></span>' + agent.statusText + '</div>' +
+                    '<p class="agent-desc">' + agent.desc + '</p>' +
+                    (agent.labelFilter ? '<div class="task-progress"><div class="progress-header"><span class="progress-label">当前任务</span><span class="progress-value">' + agent.tasks.length + ' 个</span></div><div class="progress-bar"><div class="progress-fill" style="width: ' + progress + '%"></div></div></div>' : '') +
+                    (agent.tasks && agent.tasks.length > 0 ? '<div class="task-list">' + agent.tasks.map(task => '<div class="task-item"><span class="task-label ' + (labelMap[task.label]?.class || '') + '">' + (labelMap[task.label]?.text || task.label) + '</span><div class="task-title"><a href="' + task.url + '" target="_blank" title="' + task.title + '">#' + task.number + ' ' + (task.title.length > 40 ? task.title.substring(0, 40) + '...' : task.title) + '</a></div></div>').join('') + '</div>' : (agent.labelFilter ? '<div class="task-list"><div class="task-item" style="justify-content: center; color: var(--text-secondary);">暂无任务</div></div>' : '')) +
+                    '<button class="chat-btn" style="--agent-color: ' + agent.color + '" onclick="openChat(\'' + agent.id + '\')">💬 对话</button></div>';
             }).join('');
         }
         
-        // Initial load
-        loadData();
+        function renderAgentSelector() {
+            const selector = document.getElementById('agentSelector');
+            selector.innerHTML = agents.map(agent => '<button class="agent-selector-btn ' + (agent.id === currentAgent.id ? 'active' : '') + '" onclick="switchAgent(\'' + agent.id + '\')">' + agent.emoji + ' ' + agent.name + '</button>').join('');
+        }
         
-        // Auto refresh every 30 seconds
+        function openChat(agentId) {
+            currentAgent = agents.find(a => a.id === agentId) || agents[0];
+            chatHistory = [];
+            document.getElementById('chatModal').classList.add('active');
+            document.getElementById('chatAvatar').textContent = currentAgent.emoji;
+            document.getElementById('chatAgentName').textContent = currentAgent.name;
+            document.getElementById('chatAgentRole').textContent = currentAgent.statusText;
+            renderAgentSelector();
+            renderMessages();
+            document.getElementById('chatInput').focus();
+        }
+        
+        function closeChat() { document.getElementById('chatModal').classList.remove('active'); }
+        
+        function switchAgent(agentId) {
+            currentAgent = agents.find(a => a.id === agentId) || agents[0];
+            chatHistory = [];
+            document.getElementById('chatAvatar').textContent = currentAgent.emoji;
+            document.getElementById('chatAgentName').textContent = currentAgent.name;
+            document.getElementById('chatAgentRole').textContent = currentAgent.statusText;
+            renderAgentSelector();
+            renderMessages();
+        }
+        
+        function renderMessages() {
+            const container = document.getElementById('chatMessages');
+            if (chatHistory.length === 0) {
+                container.innerHTML = '<div class="message agent"><div class="message-avatar">' + currentAgent.emoji + '</div><div class="message-content">你好！我是 ' + currentAgent.name + '。有什么可以帮你的？</div></div>';
+            } else {
+                container.innerHTML = chatHistory.map(msg => '<div class="message ' + msg.role + '"><div class="message-avatar">' + (msg.role === 'user' ? '👤' : currentAgent.emoji) + '</div><div class="message-content' + (msg.loading ? ' loading' : '') + '">' + msg.content + '</div></div>').join('');
+            }
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('chatSendBtn');
+            const message = input.value.trim();
+            if (!message || sendBtn.disabled) return;
+            chatHistory.push({ role: 'user', content: message });
+            input.value = '';
+            chatHistory.push({ role: 'agent', content: '正在思考...', loading: true });
+            renderMessages();
+            sendBtn.disabled = true;
+            try {
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ agentId: currentAgent.id, message: message })
+                });
+                const data = await res.json();
+                chatHistory.pop();
+                chatHistory.push({ role: 'agent', content: data.result?.response || data.error || '收到回复' });
+            } catch (e) {
+                chatHistory.pop();
+                chatHistory.push({ role: 'agent', content: '抱歉，连接失败。请确保 API 服务已启动。' });
+            }
+            renderMessages();
+            sendBtn.disabled = false;
+            input.focus();
+        }
+        
+        function handleChatKeypress(e) { if (e.key === 'Enter') sendMessage(); }
+        loadData();
         setInterval(loadData, 30000);
     </script>
 </body>

@@ -45,6 +45,20 @@ async function callAgent(agentId, message) {
   });
 }
 
+// 提取 <text> 标签内容
+function extractTextContent(response) {
+  if (!response) return '';
+  
+  // 尝试匹配 <text>...</text> 标签内容
+  const textMatch = response.match(/<text>([\s\S]*?)<\/text>/);
+  if (textMatch) {
+    return textMatch[1].trim();
+  }
+  
+  // 如果没有 text 标签，返回原始内容
+  return response;
+}
+
 const server = http.createServer(async (req, res) => {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -86,8 +100,11 @@ const server = http.createServer(async (req, res) => {
         
         const result = await callAgent(agentId, message);
         
+        // 提取 <text> 标签内容
+        const textContent = extractTextContent(result.response);
+        
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true, result }));
+        res.end(JSON.stringify({ success: true, result: { response: textContent } }));
       } catch (error) {
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: error.message }));

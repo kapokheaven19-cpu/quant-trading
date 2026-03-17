@@ -47,24 +47,7 @@
         .header-left .subtitle { color: var(--text-secondary); font-size: 0.9rem; }
         .header-stats { display: flex; gap: 24px; }
         .stat-item { text-align: center; }
-        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--accent-cyan); cursor: pointer; transition: all 0.3s; }
-        .stat-value:hover { transform: scale(1.1); text-shadow: 0 0 20px var(--accent-cyan); }
-        .task-detail-panel { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); z-index: 2000; align-items: center; justify-content: center; }
-        .task-detail-panel.active { display: flex; }
-        .task-detail-content { width: 90%; max-width: 700px; max-height: 80vh; background: var(--bg-card); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .task-detail-header { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-secondary); }
-        .task-detail-title { font-size: 1.2rem; font-weight: 600; }
-        .task-detail-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); font-size: 1.2rem; cursor: pointer; }
-        .task-detail-close:hover { background: rgba(255, 255, 255, 0.2); color: var(--text-primary); }
-        .task-detail-list { flex: 1; overflow-y: auto; padding: 16px; }
-        .task-detail-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; margin-bottom: 10px; }
-        .task-detail-item:hover { background: rgba(255, 255, 255, 0.06); }
-        .task-detail-number { font-size: 0.8rem; color: var(--text-secondary); min-width: 30px; }
-        .task-detail-title-text { flex: 1; font-size: 0.9rem; line-height: 1.4; }
-        .task-detail-title-text a { color: inherit; text-decoration: none; }
-        .task-detail-title-text a:hover { color: var(--accent-cyan); }
-        .task-detail-meta { display: flex; gap: 12px; margin-top: 6px; font-size: 0.75rem; color: var(--text-secondary); }
-        .task-detail-empty { text-align: center; padding: 40px; color: var(--text-secondary); }
+        .stat-value { font-size: 1.8rem; font-weight: 700; color: var(--accent-cyan); }
         .stat-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; }
         .pipeline {
             display: flex;
@@ -273,15 +256,6 @@
         <div class="footer"><p>最后更新: <span id="lastUpdate">-</span></p><p>自动刷新间隔: 30秒</p></div>
     </div>
     <button class="refresh-btn" onclick="loadData()" title="刷新数据">↻</button>
-    <div class="task-detail-panel" id="taskDetailPanel">
-        <div class="task-detail-content">
-            <div class="task-detail-header">
-                <div class="task-detail-title" id="taskDetailTitle">任务详情</div>
-                <button class="task-detail-close" onclick="closeTaskDetail()">×</button>
-            </div>
-            <div class="task-detail-list" id="taskDetailList"></div>
-        </div>
-    </div>
     <div class="chat-modal" id="chatModal">
         <div class="chat-panel">
             <div class="chat-header">
@@ -311,7 +285,6 @@
         ];
         let currentAgent = agents[0];
         let chatHistory = [];
-        let allTasks = [];
         const labelMap = { 'todo': { class: 'label-todo', text: '待处理' }, 'designing': { class: 'label-designing', text: '设计中' }, 'ready-dev': { class: 'label-ready-dev', text: '待开发' }, 'in-dev': { class: 'label-in-dev', text: '开发中' }, 'done': { class: 'label-done', text: '已完成' } };
         
         async function loadData() {
@@ -325,11 +298,8 @@
                 if (!Array.isArray(issues)) throw new Error('Failed to fetch issues');
                 const pipelineCounts = { todo: 0, designing: 0, 'ready-dev': 0, 'in-dev': 0, done: 0 };
                 let totalTasks = 0, completedTasks = 0;
-                allTasks = [];
                 issues.forEach(issue => {
                     if (issue.pull_request) return;
-                    const task = { number: issue.number, title: issue.title, url: issue.html_url, labels: issue.labels.map(l => l.name), created: issue.created_at };
-                    allTasks.push(task);
                     totalTasks++;
                     const labels = issue.labels.map(l => l.name);
                     if (labels.includes('done')) { completedTasks++; pipelineCounts['done']++; }
@@ -353,9 +323,6 @@
                 });
                 renderAgents();
                 renderAgentSelector();
-                // 绑定统计数字点击事件
-                document.getElementById('totalTasks').onclick = () => openTaskDetail('all', '全部任务 (' + allTasks.length + ')');
-                document.getElementById('completedTasks').onclick = () => openTaskDetail('done', '已完成任务 (' + completedTasks + ')');
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleString('zh-CN');
             } catch (e) {
                 console.error('Load error:', e);
@@ -363,20 +330,6 @@
                 renderAgentSelector();
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleString('zh-CN') + ' (离线)';
             } finally { btn.classList.remove('loading'); }
-        }
-        
-        let storedAllTasks = [];
-        function openTaskDetail(filter, title) {
-            storedAllTasks = allTasks || [];
-            const filtered = filter === 'done' ? storedAllTasks.filter(t => t.labels.includes('done')) : storedAllTasks;
-            document.getElementById('taskDetailTitle').textContent = title;
-            const list = document.getElementById('taskDetailList');
-            if (filtered.length === 0) {
-                list.innerHTML = '<div class="task-detail-empty">暂无任务</div>';
-            } else {
-                list.innerHTML = filtered.map(t => '<div class="task-detail-item"><div class="task-detail-number">#' + t.number + '</div><div class="task-detail-title-text"><a href="' + t.url + '" target="_blank">' + t.title + '</a><div class="task-detail-meta"><span>' + (t.labels.includes('done') ? '✅ 已完成' : t.labels.includes('in-dev') ? '🔵 开发中' : t.labels.includes('ready-dev') ? '🟢 待开发' : '🟡 待处理') + '</span><span>' + new Date(t.created).toLocaleDateString('zh-CN') + '</span></div></div></div>').join('');
-            }
-            document.getElementById('taskDetailPanel').classList.add('active');
         }
         function closeTaskDetail() { document.getElementById('taskDetailPanel').classList.remove('active'); }
         

@@ -247,6 +247,64 @@
             .pipeline-stage { min-width: calc(50% - 6px); }
             .chat-panel { width: 100%; height: 100%; max-height: 100%; border-radius: 0; }
         }
+        
+        /* 工作流配置 */
+        .workflow-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 3000; align-items: center; justify-content: center; }
+        .workflow-modal.active { display: flex; }
+        .workflow-modal-content { width: 95%; max-width: 1100px; max-height: 90vh; background: var(--bg-card); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .workflow-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-secondary); }
+        .workflow-modal-title { font-size: 1.2rem; font-weight: 600; }
+        .workflow-modal-close { width: 36px; height: 36px; border-radius: 50%; border: none; background: rgba(255, 255, 255, 0.1); color: var(--text-secondary); font-size: 1.2rem; cursor: pointer; }
+        .workflow-modal-close:hover { background: rgba(255, 255, 255, 0.2); color: var(--text-primary); }
+        .workflow-modal-body { flex: 1; display: flex; overflow: hidden; }
+        .workflow-sidebar { width: 280px; padding: 20px; border-right: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-secondary); overflow-y: auto; }
+        .workflow-sidebar h3 { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        .workflow-name-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-primary); color: var(--text-primary); font-size: 0.9rem; margin-bottom: 20px; }
+        .workflow-name-input:focus { border-color: var(--accent-cyan); outline: none; }
+        .workflow-agent-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+        .workflow-agent-btn { padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: transparent; color: var(--text-primary); font-size: 0.85rem; cursor: pointer; text-align: left; transition: all 0.2s; }
+        .workflow-agent-btn:hover { border-color: var(--accent-cyan); background: rgba(0, 212, 255, 0.1); }
+        .workflow-actions { display: flex; flex-direction: column; gap: 8px; }
+        .workflow-btn { padding: 12px 16px; border-radius: 10px; border: none; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .workflow-btn-primary { background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple)); color: white; }
+        .workflow-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0, 212, 255, 0.3); }
+        .workflow-btn-secondary { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); }
+        .workflow-btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+        .workflow-btn-danger { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .workflow-canvas-wrap { flex: 1; position: relative; overflow: hidden; background: var(--bg-primary); }
+        .workflow-canvas { width: 100%; height: 100%; position: relative; min-height: 500px; }
+        .workflow-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .workflow-node { position: absolute; width: 120px; padding: 12px; border-radius: 12px; background: var(--bg-card); border: 2px solid var(--agent-color, var(--accent-cyan)); cursor: move; user-select: none; transition: box-shadow 0.2s; }
+        .workflow-node:hover { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4); }
+        .workflow-node.selected { box-shadow: 0 0 0 3px var(--accent-cyan); }
+        .workflow-node-header { font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: var(--text-primary); }
+        .workflow-node-body { font-size: 0.7rem; color: var(--text-secondary); }
+        .workflow-node-connect { position: absolute; right: -8px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; border-radius: 50%; background: var(--accent-cyan); cursor: crosshair; }
+        .workflow-item { display: flex; align-items: center; gap: 8px; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.03); margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .workflow-item:hover { background: rgba(255, 255, 255, 0.08); }
+        .workflow-item span:first-child { flex: 1; font-size: 0.85rem; }
+        .workflow-meta { font-size: 0.7rem; color: var(--text-secondary); }
+        .workflow-delete { width: 24px; height: 24px; border-radius: 6px; border: none; background: rgba(239, 68, 68, 0.2); color: #ef4444; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+        .workflow-delete:hover { background: rgba(239, 68, 68, 0.4); }
+        .workflow-empty { text-align: center; padding: 20px; color: var(--text-secondary); font-size: 0.85rem; }
+        
+        /* 执行模态框 */
+        .execute-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.85); z-index: 3000; align-items: center; justify-content: center; }
+        .execute-modal.active { display: flex; }
+        .execute-modal-content { width: 90%; max-width: 800px; max-height: 80vh; background: var(--bg-card); border-radius: 20px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .execute-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-secondary); }
+        .execute-modal-body { flex: 1; padding: 20px; overflow-y: auto; }
+        .execute-select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-primary); color: var(--text-primary); font-size: 0.9rem; margin-bottom: 16px; }
+        .execute-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); background: var(--bg-primary); color: var(--text-primary); font-size: 0.9rem; margin-bottom: 16px; min-height: 80px; resize: vertical; }
+        .execute-input:focus { border-color: var(--accent-cyan); outline: none; }
+        .execute-results { margin-top: 20px; }
+        .execute-result { margin-bottom: 16px; padding: 16px; border-radius: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .execute-result-header { font-size: 0.8rem; font-weight: 600; color: var(--accent-cyan); margin-bottom: 8px; }
+        .execute-result-content { font-size: 0.85rem; line-height: 1.6; white-space: pre-wrap; color: var(--text-secondary); }
+        
+        .header-actions { display: flex; gap: 12px; }
+        .header-action-btn { padding: 10px 18px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.1); background: transparent; color: var(--text-secondary); font-size: 0.85rem; cursor: pointer; transition: all 0.2s; }
+        .header-action-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); background: rgba(0, 212, 255, 0.1); }
     </style>
 </head>
 <body>
@@ -260,6 +318,10 @@
                 <div class="stat-item"><div class="stat-value" id="totalTasks">-</div><div class="stat-label">总任务</div></div>
                 <div class="stat-item"><div class="stat-value" id="activeAgents">-</div><div class="stat-label">在线 Agent</div></div>
                 <div class="stat-item"><div class="stat-value" id="completedTasks">-</div><div class="stat-label">已完成</div></div>
+            </div>
+            <div class="header-actions">
+                <button class="header-action-btn" onclick="showWorkflowModal()">⚙️ 工作流配置</button>
+                <button class="header-action-btn" onclick="showExecuteModal()">▶️ 执行工作流</button>
             </div>
         </header>
         <div class="pipeline" id="pipeline">
@@ -302,6 +364,59 @@
             </div>
         </div>
     </div>
+    
+    <!-- 工作流配置模态框 -->
+    <div class="workflow-modal" id="workflowModal">
+        <div class="workflow-modal-content">
+            <div class="workflow-modal-header">
+                <div class="workflow-modal-title">⚙️ 工作流配置</div>
+                <button class="workflow-modal-close" onclick="hideWorkflowModal()">×</button>
+            </div>
+            <div class="workflow-modal-body">
+                <div class="workflow-sidebar">
+                    <h3>工作流名称</h3>
+                    <input type="text" class="workflow-name-input" id="workflowName" placeholder="输入工作流名称...">
+                    
+                    <h3>已保存工作流</h3>
+                    <div id="workflowsList"></div>
+                    
+                    <h3>添加节点</h3>
+                    <div class="workflow-agent-list">
+                        <button class="workflow-agent-btn" onclick="addWorkflowNode('echo', 'Echo')">🦞 Echo</button>
+                        <button class="workflow-agent-btn" onclick="addWorkflowNode('pm', 'PM Agent')">📋 PM Agent</button>
+                        <button class="workflow-agent-btn" onclick="addWorkflowNode('genius-coder', '天才Coder')">👨‍💻 天才Coder</button>
+                        <button class="workflow-agent-btn" onclick="addWorkflowNode('calendar', '日程助手')">📅 日程助手</button>
+                    </div>
+                    
+                    <div class="workflow-actions">
+                        <button class="workflow-btn workflow-btn-primary" onclick="saveWorkflow()">💾 保存工作流</button>
+                        <button class="workflow-btn workflow-btn-secondary" onclick="clearWorkflowCanvas()">🗑️ 清空画布</button>
+                        <button class="workflow-btn workflow-btn-danger" onclick="removeSelectedNode()">❌ 删除选中节点</button>
+                    </div>
+                </div>
+                <div class="workflow-canvas-wrap">
+                    <div class="workflow-canvas" id="workflowCanvas"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 执行工作流模态框 -->
+    <div class="execute-modal" id="executeModal">
+        <div class="execute-modal-content">
+            <div class="execute-modal-header">
+                <div class="workflow-modal-title">▶️ 执行工作流</div>
+                <button class="workflow-modal-close" onclick="document.getElementById('executeModal').classList.remove('active')">×</button>
+            </div>
+            <div class="execute-modal-body">
+                <select class="execute-select" id="executeWorkflowSelect"></select>
+                <textarea class="execute-input" id="executeInput" placeholder="输入任务描述..."></textarea>
+                <button class="workflow-btn workflow-btn-primary" id="executeBtn" onclick="executeWorkflow()">▶️ 执行</button>
+                <div class="execute-results" id="executeResults"></div>
+            </div>
+        </div>
+    </div>
+    
     <script>
         const agents = [
             { id: 'echo', name: 'Echo', emoji: '🦞', role: '首席助理', color: '#00d4ff', desc: '来自高维文明的超级智能，你的首席助理。负责接收需求、任务分发、进度追踪。', status: 'online', statusText: '在线', labelFilter: null },
@@ -541,8 +656,290 @@
         }
         
         function handleChatKeypress(e) { if (e.key === 'Enter') sendMessage(); }
+        
+        // ===== 工作流配置 =====
+        let workflowModal = null;
+        let workflowCanvas = null;
+        let workflowNodes = [];
+        let workflowConnections = [];
+        let draggingNode = null;
+        let connectingFrom = null;
+        
+        function initWorkflowModal() {
+            const modal = document.getElementById('workflowModal');
+            const canvas = document.getElementById('workflowCanvas');
+            if (!modal || !canvas) return;
+            
+            workflowModal = modal;
+            workflowCanvas = canvas;
+            
+            // 加载已有工作流
+            loadWorkflowsList();
+            
+            // 绑定事件
+            canvas.addEventListener('mousedown', handleCanvasMouseDown);
+            canvas.addEventListener('mousemove', handleCanvasMouseMove);
+            canvas.addEventListener('mouseup', handleCanvasMouseUp);
+        }
+        
+        async function loadWorkflowsList() {
+            try {
+                const res = await fetch('/api/workflows');
+                const workflows = await res.json();
+                const list = document.getElementById('workflowsList');
+                if (list) {
+                    list.innerHTML = workflows.map(w => `
+                        <div class="workflow-item" onclick="openWorkflow('${w.id}')">
+                            <span>${w.name}</span>
+                            <span class="workflow-meta">${w.nodes.length} 个节点</span>
+                            <button class="workflow-delete" onclick="event.stopPropagation();deleteWorkflow('${w.id}')">×</button>
+                        </div>
+                    `).join('') || '<div class="workflow-empty">暂无工作流</div>';
+                }
+            } catch (e) {
+                console.error('加载工作流失败:', e);
+            }
+        }
+        
+        function showWorkflowModal() {
+            workflowModal.classList.add('active');
+            clearWorkflowCanvas();
+        }
+        
+        function hideWorkflowModal() {
+            workflowModal.classList.remove('active');
+        }
+        
+        function clearWorkflowCanvas() {
+            workflowNodes = [];
+            workflowConnections = [];
+            renderWorkflowCanvas();
+        }
+        
+        function renderWorkflowCanvas() {
+            if (!workflowCanvas) return;
+            
+            // 渲染连接线
+            let svg = '<svg class="workflow-svg">';
+            workflowConnections.forEach(conn => {
+                const from = workflowNodes.find(n => n.id === conn.source);
+                const to = workflowNodes.find(n => n.id === conn.target);
+                if (from && to) {
+                    svg += `<line x1="${from.x + 60}" y1="${from.y + 30}" x2="${to.x + 60}" y2="${to.y + 30}" stroke="#00d4ff" stroke-width="2"/>`;
+                }
+            });
+            svg += '</svg>';
+            
+            // 渲染节点
+            const nodesHtml = workflowNodes.map(node => `
+                <div class="workflow-node" style="left:${node.x}px;top:${node.y}px;--agent-color:${node.color || '#00d4ff'}" 
+                     data-id="${node.id}" draggable="true">
+                    <div class="workflow-node-header">${node.name}</div>
+                    <div class="workflow-node-body">${node.agentId}</div>
+                    <div class="workflow-node-connect"></div>
+                </div>
+            `).join('');
+            
+            workflowCanvas.innerHTML = svg + nodesHtml;
+            
+            // 绑定节点事件
+            workflowCanvas.querySelectorAll('.workflow-node').forEach(el => {
+                el.addEventListener('mousedown', e => {
+                    if (e.target.classList.contains('workflow-node-connect')) {
+                        connectingFrom = el.dataset.id;
+                    } else {
+                        draggingNode = { id: el.dataset.id, startX: e.clientX, startY: e.clientY, nodeX: 0, nodeY: 0 };
+                        const node = workflowNodes.find(n => n.id === draggingNode.id);
+                        if (node) {
+                            draggingNode.nodeX = node.x;
+                            draggingNode.nodeY = node.y;
+                        }
+                    }
+                });
+            });
+        }
+        
+        function handleCanvasMouseDown(e) {
+            // 拖拽节点
+        }
+        
+        function handleCanvasMouseMove(e) {
+            if (draggingNode) {
+                const dx = e.clientX - draggingNode.startX;
+                const dy = e.clientY - draggingNode.startY;
+                const node = workflowNodes.find(n => n.id === draggingNode.id);
+                if (node) {
+                    node.x = draggingNode.nodeX + dx;
+                    node.y = draggingNode.nodeY + dy;
+                    renderWorkflowCanvas();
+                }
+            }
+        }
+        
+        function handleCanvasMouseUp(e) {
+            if (connectingFrom) {
+                const target = e.target.closest('.workflow-node');
+                if (target && target.dataset.id !== connectingFrom) {
+                    workflowConnections.push({ source: connectingFrom, target: target.dataset.id });
+                    renderWorkflowCanvas();
+                }
+                connectingFrom = null;
+            }
+            draggingNode = null;
+        }
+        
+        function addWorkflowNode(agentId, agentName) {
+            const colors = ['#00d4ff', '#7c3aed', '#ec4899', '#22c55e', '#f59e0b', '#3b82f6'];
+            const color = colors[workflowNodes.length % colors.length];
+            workflowNodes.push({
+                id: 'node_' + Date.now(),
+                agentId: agentId,
+                name: agentName,
+                x: 50 + (workflowNodes.length % 3) * 150,
+                y: 50 + Math.floor(workflowNodes.length / 3) * 120,
+                color: color
+            });
+            renderWorkflowCanvas();
+        }
+        
+        function removeSelectedNode() {
+            const selected = workflowCanvas.querySelector('.workflow-node.selected');
+            if (selected) {
+                const nodeId = selected.dataset.id;
+                workflowNodes = workflowNodes.filter(n => n.id !== nodeId);
+                workflowConnections = workflowConnections.filter(c => c.source !== nodeId && c.target !== nodeId);
+                renderWorkflowCanvas();
+            }
+        }
+        
+        let currentWorkflowId = null;
+        
+        function openWorkflow(id) {
+            currentWorkflowId = id;
+            fetch('/api/workflows')
+                .then(r => r.json())
+                .then(workflows => {
+                    const wf = workflows.find(w => w.id === id);
+                    if (wf) {
+                        workflowNodes = wf.nodes || [];
+                        workflowConnections = wf.connections || [];
+                        renderWorkflowCanvas();
+                        document.getElementById('workflowName').value = wf.name;
+                    }
+                });
+        }
+        
+        async function saveWorkflow() {
+            const name = document.getElementById('workflowName').value.trim();
+            if (!name) {
+                alert('请输入工作流名称');
+                return;
+            }
+            if (workflowNodes.length === 0) {
+                alert('请添加至少一个节点');
+                return;
+            }
+            
+            const workflow = {
+                id: currentWorkflowId || '',
+                name: name,
+                nodes: workflowNodes,
+                connections: workflowConnections
+            };
+            
+            try {
+                const res = await fetch('/api/workflows', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(workflow)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    currentWorkflowId = data.workflow.id;
+                    loadWorkflowsList();
+                    alert('保存成功');
+                }
+            } catch (e) {
+                alert('保存失败: ' + e.message);
+            }
+        }
+        
+        async function deleteWorkflow(id) {
+            if (!confirm('确定删除此工作流?')) return;
+            try {
+                await fetch('/api/workflows?id=' + id, { method: 'DELETE' });
+                loadWorkflowsList();
+                if (currentWorkflowId === id) {
+                    clearWorkflowCanvas();
+                    currentWorkflowId = null;
+                }
+            } catch (e) {
+                alert('删除失败: ' + e.message);
+            }
+        }
+        
+        let executeModal = null;
+        
+        function showExecuteModal() {
+            executeModal = document.getElementById('executeModal');
+            executeModal.classList.add('active');
+            loadWorkflowsForExecute();
+        }
+        
+        async function loadWorkflowsForExecute() {
+            try {
+                const res = await fetch('/api/workflows');
+                const workflows = await res.json();
+                const select = document.getElementById('executeWorkflowSelect');
+                select.innerHTML = workflows.map(w => `<option value="${w.id}">${w.name}</option>`).join('');
+            } catch (e) {
+                console.error('加载工作流失败:', e);
+            }
+        }
+        
+        async function executeWorkflow() {
+            const workflowId = document.getElementById('executeWorkflowSelect').value;
+            const input = document.getElementById('executeInput').value.trim();
+            if (!input) {
+                alert('请输入任务描述');
+                return;
+            }
+            
+            const btn = document.getElementById('executeBtn');
+            btn.disabled = true;
+            btn.textContent = '执行中...';
+            
+            try {
+                const res = await fetch('/api/workflows/execute', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ workflowId, input })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    const results = document.getElementById('executeResults');
+                    results.innerHTML = data.results.map(r => `
+                        <div class="execute-result">
+                            <div class="execute-result-header">${r.agentId}</div>
+                            <div class="execute-result-content">${r.response}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    alert('执行失败: ' + data.error);
+                }
+            } catch (e) {
+                alert('执行失败: ' + e.message);
+            }
+            
+            btn.disabled = false;
+            btn.textContent = '执行';
+        }
+        
         loadData();
         setInterval(loadData, 30000);
+        // 初始化工作流
+        initWorkflowModal();
     </script>
 </body>
 </html>

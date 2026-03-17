@@ -433,6 +433,83 @@
             container.scrollTop = container.scrollHeight;
         }
         
+        function extractAgentResponse(data) {
+            // 提取 Agent 的纯文本回答，过滤技术信息
+            if (!data) return '收到回复';
+            
+            let response = '';
+            
+            // 情况1: data.result.response 存在
+            if (data.result?.response) {
+                response = data.result.response;
+            }
+            // 情况2: data.result 本身就是字符串
+            else if (typeof data.result === 'string') {
+                response = data.result;
+            }
+            // 情况3: data.response 存在
+            else if (data.response) {
+                response = data.response;
+            }
+            // 情况4: 整个 data 就是字符串
+            else if (typeof data === 'string') {
+                response = data;
+            }
+            
+            // 已经是纯文本，直接返回
+            if (typeof response !== 'string') {
+                return JSON.stringify(response);
+            }
+            
+            // 尝试解析 JSON 字符串（OpenClaw 输出可能是 JSON 字符串）
+            try {
+                const parsed = JSON.parse(response);
+                // 递归提取
+                return extractAgentResponse(parsed);
+            } catch {
+                // 不是 JSON，继续处理
+            }
+            
+            // 过滤技术信息
+            // 1. 移除 thinking 块
+            response = response.replace(/<think>[\s\S]*?</think>/g, '');
+            
+            // 2. 移除工具调用信息
+            response = response.replace(/\[(?:tool_call|tool_use|tool_invocation|function_call).*?\]/gi, '');
+            response = response.replace(/<(?:tool_call|tool_use|tool_invocation|function_call).*?<\/(?:tool_call|tool_use|tool_invocation|function_call)>/gis, '');
+            
+            // 3. 移除 JSON 对象中的技术键（只保留 content/message/text 字段）
+            const jsonMatch = response.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                try {
+                    const obj = JSON.parse(jsonMatch[0]);
+                    const textFields = ['content', 'message', 'text', 'reply', 'answer', 'response'];
+                    for (const field of textFields) {
+                        if (obj[field]) {
+                            response = obj[field];
+                            break;
+                        }
+                    }
+                } catch {}
+            }
+            
+            // 4. 移除 <final> 标签外的所有内容（OpenClaw 输出格式）
+            const finalMatch = response.match(/<final>([\s\S]*?)<\/final>/i);
+            if (finalMatch) {
+                response = finalMatch[1].trim();
+            }
+            
+            // 5. 清理多余空白
+            response = response.trim();
+            
+            // 6. 如果处理后为空，返回默认消息
+            if (!response) {
+                return '收到回复';
+            }
+            
+            return response;
+        }
+        
         async function sendMessage() {
             const input = document.getElementById('chatInput');
             const sendBtn = document.getElementById('chatSendBtn');
@@ -451,7 +528,9 @@
                 });
                 const data = await res.json();
                 chatHistory.pop();
-                chatHistory.push({ role: 'agent', content: data.result?.response || data.error || '收到回复' });
+                // 使用 extractAgentResponse 提取纯文本回答
+                const agentResponse = extractAgentResponse(data.result || data);
+                chatHistory.push({ role: 'agent', content: agentResponse });
             } catch (e) {
                 chatHistory.pop();
                 chatHistory.push({ role: 'agent', content: '抱歉，连接失败。请确保 API 服务已启动。' });

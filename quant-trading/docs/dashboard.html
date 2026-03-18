@@ -676,10 +676,12 @@
             // 加载已有工作流
             loadWorkflowsList();
             
-            // 绑定事件
+            // 绑定事件到 canvas（mousedown）
             canvas.addEventListener('mousedown', handleCanvasMouseDown);
-            canvas.addEventListener('mousemove', handleCanvasMouseMove);
-            canvas.addEventListener('mouseup', handleCanvasMouseUp);
+            
+            // 将 mousemove 和 mouseup 绑定到 document，防止拖拽中断
+            document.addEventListener('mousemove', handleCanvasMouseMove);
+            document.addEventListener('mouseup', handleCanvasMouseUp);
         }
         
         async function loadWorkflowsList() {
@@ -840,11 +842,18 @@
                 return;
             }
             
+            // 过滤掉无效的连接（source 或 target 不存在的节点）
+            const nodeIds = new Set(workflowNodes.map(n => n.id));
+            const validConnections = workflowConnections.filter(conn => 
+                conn && conn.source && conn.target && 
+                nodeIds.has(conn.source) && nodeIds.has(conn.target)
+            );
+            
             const workflow = {
                 id: currentWorkflowId || '',
                 name: name,
                 nodes: workflowNodes,
-                connections: workflowConnections
+                connections: validConnections
             };
             
             try {

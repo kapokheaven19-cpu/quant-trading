@@ -159,6 +159,13 @@ const server = http.createServer(async (req, res) => {
           return;
         }
         
+        // 过滤掉无效的连接（source 或 target 指向不存在的节点）
+        const nodeIds = new Set(workflow.nodes.map(n => n && n.id).filter(Boolean));
+        workflow.connections = workflow.connections.filter(conn => 
+          conn && conn.source && conn.target && 
+          nodeIds.has(conn.source) && nodeIds.has(conn.target)
+        );
+        
         const data = loadWorkflows();
         workflow.id = workflow.id || Date.now().toString();
         workflow.createdAt = workflow.createdAt || new Date().toISOString();
